@@ -1,0 +1,30 @@
+{
+  "name": "xazoom/acl-core",
+  "description": "Access Control Layer Core",
+  "type": "library",
+  "license": "MIT",
+  "keywords": ["acl", "access system"],
+  "authors": [
+    {
+      "name": "Patryk Wilusz",
+      "email": "morenequs@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Xazoom\\AclSystem\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Xazoom\\AclSystem\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=7.4",
+    "webmozart/assert": "^1.10"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  }
+}
