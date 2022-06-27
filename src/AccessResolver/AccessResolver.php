@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\AccessResolver;
 
+use Xazoom\AclSystem\AccessEntry\AccessEntriesResolverInterface;
+use Xazoom\AclSystem\AccessEntry\Exception\KeyAccessEntryNotRecognisedException;
+use Xazoom\AclSystem\AccessEntry\Exception\UnsupportedAttributeException;
 use Xazoom\AclSystem\Entity\AclIdentity;
 use Xazoom\AclSystem\Entity\AclRole;
 use Xazoom\AclSystem\Entity\ValueObject\AccessList;
 use Xazoom\AclSystem\Entity\ValueObject\Exception\KeyDoesNotExistsException;
-use Xazoom\AclSystem\AccessEntry\AccessEntriesResolverInterface;
-use Xazoom\AclSystem\AccessEntry\Exception\KeyAccessEntryNotRecognisedException;
-use Xazoom\AclSystem\AccessEntry\Exception\UnsupportedAttributeException;
 
 class AccessResolver implements AccessResolverInterface
 {
@@ -20,6 +22,8 @@ class AccessResolver implements AccessResolverInterface
     }
 
     /**
+     * @param mixed $resource
+     *
      * @throws KeyAccessEntryNotRecognisedException
      * @throws \InvalidArgumentException
      */
@@ -34,12 +38,11 @@ class AccessResolver implements AccessResolverInterface
             return false;
         }
 
-        if (!in_array($attribute, $attributesList)) {
+        if (!\in_array($attribute, $attributesList, true)) {
             return false;
         }
 
-        if (is_string($resource))
-        {
+        if (\is_string($resource)) {
             $resource = null;
         }
 
@@ -56,6 +59,7 @@ class AccessResolver implements AccessResolverInterface
     private function resolveAccessListForRoles(array $roles): AccessList
     {
         $accessLists = array_map(fn (AclRole $aclRole) => $aclRole->getAccessList(), $roles);
+
         return AccessList::merge($accessLists);
     }
 }

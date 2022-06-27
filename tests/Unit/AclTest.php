@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\Tests\Unit;
 
 use Xazoom\AclSystem\Acl;
@@ -9,7 +11,11 @@ use Xazoom\AclSystem\Tests\Share\Entity\Article;
 use Xazoom\AclSystem\Tests\Share\ObjectMother\UserMother;
 use Xazoom\AclSystem\Tests\Share\TestDoubles\Fake\AccessResolverFake;
 
-class AclTest extends BaseTestCase
+/**
+ * @internal
+ * @coversNothing
+ */
+final class AclTest extends BaseTestCase
 {
     public function testFalseAccessIfNullIdentity(): void
     {
@@ -18,8 +24,8 @@ class AclTest extends BaseTestCase
 
         $hasAccess = $acl->hasAccess(null, new Article(), 'READ');
 
-        $this->assertFalse($hasAccess);
-        $this->assertCount(0, $accessResolver->logs);
+        static::assertFalse($hasAccess);
+        static::assertCount(0, $accessResolver->logs);
     }
 
     public function testUseExactOneAccessResolver(): void
@@ -30,10 +36,10 @@ class AclTest extends BaseTestCase
 
         $hasAccess = $acl->hasAccess($user, ArticleAccessEntry::key(), ArticleAccessEntry::READ);
 
-        $this->assertTrue($hasAccess);
-        $this->assertCount(1, $accessResolver->logs);
-        $this->assertEquals($user, $accessResolver->logs[0]['identity']);
-        $this->assertEquals(ArticleAccessEntry::key(), $accessResolver->logs[0]['resource']);
-        $this->assertEquals(ArticleAccessEntry::READ, $accessResolver->logs[0]['attribute']);
+        static::assertTrue($hasAccess);
+        static::assertCount(1, $accessResolver->logs);
+        static::assertSame($user, $accessResolver->logs[0]['identity']);
+        static::assertSame(ArticleAccessEntry::key(), $accessResolver->logs[0]['resource']);
+        static::assertSame(ArticleAccessEntry::READ, $accessResolver->logs[0]['attribute']);
     }
 }

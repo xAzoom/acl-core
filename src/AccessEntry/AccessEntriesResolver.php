@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\AccessEntry;
 
 use Xazoom\AclSystem\AccessEntry\Exception\KeyAccessEntryNotRecognisedException;
@@ -19,13 +21,14 @@ class AccessEntriesResolver implements AccessEntriesResolverInterface
     }
 
     /**
-     * @param string|object $key
+     * @param object|string $key
+     *
      * @throws KeyAccessEntryNotRecognisedException
      * @throws \InvalidArgumentException
      */
     public function resolve($key): AbstractAccessEntry
     {
-        if (is_string($key)) {
+        if (\is_string($key)) {
             if ($accessEntry = $this->accessEntryClassToAccessEntry[$key] ?? null) {
                 return $accessEntry;
             }
@@ -37,12 +40,12 @@ class AccessEntriesResolver implements AccessEntriesResolverInterface
             throw new KeyAccessEntryNotRecognisedException(sprintf('Key %s not recognised', $key));
         }
 
-        if (is_object($key)) {
-            if ($accessEntry = $this->entityClassToAccessEntry[get_class($key)]) {
+        if (\is_object($key)) {
+            if ($accessEntry = $this->entityClassToAccessEntry[\get_class($key)]) {
                 return $accessEntry;
             }
 
-            throw new KeyAccessEntryNotRecognisedException(sprintf('Key %s not recognised', get_class($key)));
+            throw new KeyAccessEntryNotRecognisedException(sprintf('Key %s not recognised', \get_class($key)));
         }
 
         throw new \InvalidArgumentException('resolve method support only string and objects');
@@ -56,6 +59,7 @@ class AccessEntriesResolver implements AccessEntriesResolverInterface
         foreach ($accessEntries as $accessEntry) {
             $this->accessEntryClassToAccessEntry[$accessEntry::key()] = $accessEntry;
             $resourceClass = $accessEntry->resourceClass();
+
             if ($resourceClass) {
                 $this->entityClassToAccessEntry[$resourceClass] = $accessEntry;
             }

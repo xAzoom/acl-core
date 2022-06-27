@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\Tests\Integration\AccessResolver;
 
 use Xazoom\AclSystem\Entity\AclRole;
@@ -16,7 +18,11 @@ use Xazoom\AclSystem\Tests\Share\ObjectMother\AccessResolverMother;
 use Xazoom\AclSystem\Tests\Share\ObjectMother\AclRoleMother;
 use Xazoom\AclSystem\Tests\Share\ObjectMother\UserMother;
 
-class AccessResolverTest extends BaseTestCase
+/**
+ * @internal
+ * @coversNothing
+ */
+final class AccessResolverTest extends BaseTestCase
 {
     /** @dataProvider providerHasAccess */
     public function testHasAccess(bool $expected, User $user, $resource, string $attribute): void
@@ -25,13 +31,13 @@ class AccessResolverTest extends BaseTestCase
 
         $hasAccess = $accessResolver->hasAccess($user, $resource, $attribute);
 
-        $this->assertEquals($expected, $hasAccess);
+        static::assertSame($expected, $hasAccess);
     }
 
     public function providerHasAccess(): array
     {
         return [
-            //expected, user, resource, attribute
+            // expected, user, resource, attribute
             [true, UserMother::withReadArticleAccess(), new Article(), ArticleAccessEntry::READ],
             [true, UserMother::withReadArticleAccess(), ArticleAccessEntry::class, ArticleAccessEntry::READ],
             [false, UserMother::withReadArticleAccess(), new Article(), ArticleAccessEntry::EDIT],
@@ -58,13 +64,13 @@ class AccessResolverTest extends BaseTestCase
 
         $hasAccess = $accessResolver->hasAccess($user, DashboardAccessEntry::class, $attribute);
 
-        $this->assertEquals(false, $hasAccess);
+        static::assertFalse($hasAccess);
     }
 
     public function providerAccessDeniedForNotConfiguredAttributeInEntry(): array
     {
         return [
-            //user, attribute
+            // user, attribute
             [UserMother::withAclRoles([AclRoleMother::accessToDashboard()]), 'TEST'],
             [UserMother::withAclRoles([AclRoleMother::accessToDashboardWithFakeAttributeTEST()]), 'TEST'],
         ];
@@ -88,7 +94,7 @@ class AccessResolverTest extends BaseTestCase
         $accessList = AccessList::createFromRawArray([InvalidAccessEntry::key() => [InvalidAccessEntry::ACCESS]]);
         $user = UserMother::withAclRoles([(new AclRole())->setAccessList($accessList)]);
 
-        $hasAccess = $accessResolver->hasAccess($user, InvalidAccessEntry::key() , InvalidAccessEntry::ACCESS);
+        $hasAccess = $accessResolver->hasAccess($user, InvalidAccessEntry::key(), InvalidAccessEntry::ACCESS);
     }
 
     public function testAccessForEntryWithOwnKey(): void
@@ -98,6 +104,6 @@ class AccessResolverTest extends BaseTestCase
 
         $hasAccess = $accessResolver->hasAccess($user, OwnKeyAccessEntry::key(), OwnKeyAccessEntry::ACCESS);
 
-        $this->assertTrue($hasAccess);
+        static::assertTrue($hasAccess);
     }
 }

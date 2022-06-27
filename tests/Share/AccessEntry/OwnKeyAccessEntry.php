@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\Tests\Share\AccessEntry;
 
 use Xazoom\AclSystem\Entity\AclIdentity;

@@ -1,14 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\AccessEntry;
 
-use Xazoom\AclSystem\Entity\AclIdentity;
 use Xazoom\AclSystem\AccessEntry\Exception\UnsupportedAttributeException;
+use Xazoom\AclSystem\Entity\AclIdentity;
 
 abstract class AbstractAccessEntry
 {
-    abstract protected function getAttributes(): array;
-
     public static function key(): string
     {
         return static::class;
@@ -26,16 +26,18 @@ abstract class AbstractAccessEntry
     {
         if (!$this->isSupportedAction($attribute)) {
             throw new UnsupportedAttributeException(
-                sprintf('Attribute %s is not supported by %s access entry', $attribute, get_class($this))
+                sprintf('Attribute %s is not supported by %s access entry', $attribute, static::class)
             );
         }
 
-        return call_user_func($this->getAttributes()[$attribute], $aclIdentity, $resource);
+        return \call_user_func($this->getAttributes()[$attribute], $aclIdentity, $resource);
     }
+
+    abstract protected function getAttributes(): array;
 
     private function isSupportedAction(string $action): bool
     {
-        return in_array($action, $this->getSupportedAttributes());
+        return \in_array($action, $this->getSupportedAttributes(), true);
     }
 
     /** @return string[] */

@@ -1,18 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\Tests\Unit\Entity\ValueObject;
 
 use Xazoom\AclSystem\Entity\ValueObject\AccessList;
 use Xazoom\AclSystem\Entity\ValueObject\Exception\KeyDoesNotExistsException;
 use Xazoom\AclSystem\Tests\BaseTestCase;
 
-class AccessListTest extends BaseTestCase
+/**
+ * @internal
+ * @coversNothing
+ */
+final class AccessListTest extends BaseTestCase
 {
     public function testSuccessCreateEmptyAccessList(): void
     {
         $accessList = AccessList::createEmpty();
 
-        $this->assertEmpty($accessList->getRawArrayAccessList());
+        static::assertEmpty($accessList->getRawArrayAccessList());
     }
 
     public function testSuccessCreateAccessList(): void
@@ -20,7 +26,7 @@ class AccessListTest extends BaseTestCase
         $rawAccessList = ['key' => ['READ', 'EDIT', 'DELETE']];
         $accessList = AccessList::createFromRawArray($rawAccessList);
 
-        $this->assertEquals($rawAccessList, $accessList->getRawArrayAccessList());
+        static::assertSame($rawAccessList, $accessList->getRawArrayAccessList());
     }
 
     /** @dataProvider providerInvalidCreateFromRawArray */
@@ -46,8 +52,8 @@ class AccessListTest extends BaseTestCase
 
         $result = $accessList->setAccessEntry('key', ['READ']);
 
-        $this->assertEmpty($accessList->getRawArrayAccessList());
-        $this->assertEquals(['key' => ['READ']], $result->getRawArrayAccessList());
+        static::assertEmpty($accessList->getRawArrayAccessList());
+        static::assertSame(['key' => ['READ']], $result->getRawArrayAccessList());
     }
 
     public function testOverwriteAccessEntry(): void
@@ -57,8 +63,8 @@ class AccessListTest extends BaseTestCase
 
         $result = $accessList->setAccessEntry('key', ['READ']);
 
-        $this->assertEquals($rawAccessList, $accessList->getRawArrayAccessList());
-        $this->assertEquals(['key' => ['READ']], $result->getRawArrayAccessList());
+        static::assertSame($rawAccessList, $accessList->getRawArrayAccessList());
+        static::assertSame(['key' => ['READ']], $result->getRawArrayAccessList());
     }
 
     public function testInvalidSetAccessEntry(): void
@@ -77,7 +83,7 @@ class AccessListTest extends BaseTestCase
 
         $mergedAccessList = AccessList::merge($accessLists);
 
-        $this->assertEquals($expected, $mergedAccessList->getRawArrayAccessList());
+        static::assertSame($expected, $mergedAccessList->getRawArrayAccessList());
     }
 
     public function providerMergeAccessLists(): array
@@ -85,19 +91,19 @@ class AccessListTest extends BaseTestCase
         return [
             [
                 ['key' => ['READ'], 'key2' => ['READ']],
-                [['key' => ['READ']], ['key2' => ['READ']]]
+                [['key' => ['READ']], ['key2' => ['READ']]],
             ],
             [
                 ['key' => ['READ']],
-                [['key' => ['READ']], ['key' => ['READ']]]
+                [['key' => ['READ']], ['key' => ['READ']]],
             ],
             [
                 ['key' => ['READ', 'WRITE']],
-                [['key' => ['READ']], ['key' => ['WRITE']]]
+                [['key' => ['READ']], ['key' => ['WRITE']]],
             ],
             [
                 ['key' => ['READ', 'WRITE']],
-                [['key' => ['READ']], ['key' => ['WRITE']], ['key' => ['READ']]]
+                [['key' => ['READ']], ['key' => ['WRITE']], ['key' => ['READ']]],
             ],
         ];
     }
@@ -109,7 +115,7 @@ class AccessListTest extends BaseTestCase
 
         $attributes = $accessList->getAttributes('key');
 
-        $this->assertEquals(['READ', 'EDIT', 'DELETE'], $attributes);
+        static::assertSame(['READ', 'EDIT', 'DELETE'], $attributes);
     }
 
     public function testGetAttributesForNotExistingKey(): void

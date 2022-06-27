@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\Tests\Share\ObjectMother;
 
 use Xazoom\AclSystem\Entity\AclRole;
@@ -14,39 +16,44 @@ class AclRoleMother
     {
         return (new AclRole())
             ->setAccessList(AccessList::createFromRawArray([
-                ArticleAccessEntry::key() => ArticleAccessEntry::All
-            ]));
+                ArticleAccessEntry::key() => ArticleAccessEntry::All,
+            ]))
+        ;
     }
 
     public static function readAccessToArticle(): AclRole
     {
         return (new AclRole())
             ->setAccessList(AccessList::createFromRawArray([
-                ArticleAccessEntry::key() => [ArticleAccessEntry::READ]
-            ]));
+                ArticleAccessEntry::key() => [ArticleAccessEntry::READ],
+            ]))
+        ;
     }
 
     public static function accessToDashboard(): AclRole
     {
         return (new AclRole())
             ->setAccessList(AccessList::createFromRawArray([
-                DashboardAccessEntry::key() => [DashboardAccessEntry::ACCESS]
-            ]));
+                DashboardAccessEntry::key() => [DashboardAccessEntry::ACCESS],
+            ]))
+        ;
     }
 
     public static function accessToDashboardWithFakeAttributeTEST(): AclRole
     {
         return (new AclRole())
             ->setAccessList(AccessList::createFromRawArray([
-                DashboardAccessEntry::key() => [DashboardAccessEntry::ACCESS, 'TEST']
-            ]));
+                DashboardAccessEntry::key() => [DashboardAccessEntry::ACCESS, 'TEST'],
+            ]))
+        ;
     }
 
     public static function accessToOwnKey(): AclRole
     {
         return (new AclRole())
             ->setAccessList(AccessList::createFromRawArray([
-                OwnKeyAccessEntry::key() => [OwnKeyAccessEntry::ACCESS]
-            ]));
+                OwnKeyAccessEntry::key() => [OwnKeyAccessEntry::ACCESS],
+            ]))
+        ;
     }
 }

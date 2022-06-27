@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\Tests\Share\ObjectMother;
 
 use Xazoom\AclSystem\AccessEntry\AccessEntriesResolver;

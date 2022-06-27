@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\AccessEntry;
 
 use Xazoom\AclSystem\AccessEntry\Exception\KeyAccessEntryNotRecognisedException;
@@ -7,7 +9,8 @@ use Xazoom\AclSystem\AccessEntry\Exception\KeyAccessEntryNotRecognisedException;
 interface AccessEntriesResolverInterface
 {
     /**
-     * @param string|object $key
+     * @param object|string $key
+     *
      * @throws KeyAccessEntryNotRecognisedException
      * @throws \InvalidArgumentException
      */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\Tests\Unit\AccessEntry;
 
 use Xazoom\AclSystem\AccessEntry\Exception\UnsupportedAttributeException;
@@ -8,7 +10,11 @@ use Xazoom\AclSystem\Tests\Share\AccessEntry\ArticleAccessEntry;
 use Xazoom\AclSystem\Tests\Share\Entity\Article;
 use Xazoom\AclSystem\Tests\Share\ObjectMother\UserMother;
 
-class AbstractAccessEntryTest extends BaseTestCase
+/**
+ * @internal
+ * @coversNothing
+ */
+final class AbstractAccessEntryTest extends BaseTestCase
 {
     public function testSuccessResolveAccess(): void
     {
@@ -18,7 +24,7 @@ class AbstractAccessEntryTest extends BaseTestCase
 
         $hasAccess = $articleAccessEntry->resolveAccess($user, $article, ArticleAccessEntry::READ);
 
-        $this->assertTrue($hasAccess);
+        static::assertTrue($hasAccess);
     }
 
     public function testTryingAccessToUnsupportedAttribute(): void

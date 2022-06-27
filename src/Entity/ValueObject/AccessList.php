@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Xazoom\AclSystem\Entity\ValueObject;
 
 use Webmozart\Assert\Assert;
@@ -68,15 +70,15 @@ class AccessList
 
         $accessesList = $this->accessList;
         $accessesList[$key] = $attributes;
-        return self::createFromRawArray($accessesList);
 
+        return self::createFromRawArray($accessesList);
     }
 
     protected function assertValidAccessList(array $accessList): void
     {
         Assert::isMap($accessList);
-        foreach ($accessList as $accessEntry)
-        {
+
+        foreach ($accessList as $accessEntry) {
             Assert::allString($accessEntry);
         }
     }
