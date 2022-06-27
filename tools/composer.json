@@ -1,0 +1,10 @@
+{
+  "name": "xazoom/acl-core-tools",
+  "description": "Acl-core tools",
+  "require": {
+    "php": ">=7.4"
+  },
+  "require-dev": {
+    "vimeo/psalm": "^4.24"
+  }
+}

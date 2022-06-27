@@ -55,8 +55,9 @@ class AccessEntriesResolver implements AccessEntriesResolverInterface
     {
         foreach ($accessEntries as $accessEntry) {
             $this->accessEntryClassToAccessEntry[$accessEntry::key()] = $accessEntry;
-            if ($accessEntry->resourceClass()) {
-                $this->entityClassToAccessEntry[$accessEntry->resourceClass()] = $accessEntry;
+            $resourceClass = $accessEntry->resourceClass();
+            if ($resourceClass) {
+                $this->entityClassToAccessEntry[$resourceClass] = $accessEntry;
             }
         }
     }

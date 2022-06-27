@@ -26,5 +26,10 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5"
+  },
+  "scripts": {
+    "static:analyze": [
+      "tools\/vendor\/bin\/psalm --output-format=compact"
+    ]
   }
 }
