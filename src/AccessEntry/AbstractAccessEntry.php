@@ -30,9 +30,10 @@ abstract class AbstractAccessEntry
             );
         }
 
-        return \call_user_func($this->getAttributes()[$attribute], $aclIdentity, $resource);
+        return (bool) \call_user_func($this->getAttributes()[$attribute], $aclIdentity, $resource);
     }
 
+    /** @return array<string, callable> */
     abstract protected function getAttributes(): array;
 
     private function isSupportedAction(string $action): bool

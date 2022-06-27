@@ -9,8 +9,10 @@ use Xazoom\AclSystem\Entity\ValueObject\Exception\KeyDoesNotExistsException;
 
 class AccessList
 {
+    /** @var array<string, string[]> */
     protected array $accessList;
 
+    /** @param array<string, string[]> $accessesList */
     protected function __construct(array $accessesList)
     {
         $this->assertValidAccessList($accessesList);
@@ -22,6 +24,7 @@ class AccessList
         return new self([]);
     }
 
+    /** @param array<string, string[]> $accessesList */
     public static function createFromRawArray(array $accessesList): self
     {
         return new self($accessesList);
@@ -47,6 +50,7 @@ class AccessList
         return self::createFromRawArray($accessesListWithoutDuplications);
     }
 
+    /** @return array<string, string[]> */
     public function getRawArrayAccessList(): array
     {
         return $this->accessList;
@@ -54,6 +58,8 @@ class AccessList
 
     /**
      * @throws KeyDoesNotExistsException
+     *
+     * @return string[]
      */
     public function getAttributes(string $key): array
     {
@@ -64,6 +70,7 @@ class AccessList
         return $attributes;
     }
 
+    /** @param string[] $attributes */
     public function setAccessEntry(string $key, array $attributes): self
     {
         Assert::allString($attributes);
@@ -74,6 +81,7 @@ class AccessList
         return self::createFromRawArray($accessesList);
     }
 
+    /** @param  array<string, string[]> $accessList */
     protected function assertValidAccessList(array $accessList): void
     {
         Assert::isMap($accessList);

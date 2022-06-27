@@ -22,7 +22,7 @@ class AccessResolver implements AccessResolverInterface
     }
 
     /**
-     * @param mixed $resource
+     * @param object|string $resource
      *
      * @throws KeyAccessEntryNotRecognisedException
      * @throws \InvalidArgumentException

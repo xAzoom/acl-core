@@ -8,8 +8,14 @@ use Xazoom\AclSystem\AccessEntry\Exception\KeyAccessEntryNotRecognisedException;
 
 class AccessEntriesResolver implements AccessEntriesResolverInterface
 {
+    /**
+     * @var array<string, AbstractAccessEntry>
+     */
     private array $accessEntryClassToAccessEntry;
 
+    /**
+     * @var array<string, AbstractAccessEntry>
+     */
     private array $entityClassToAccessEntry;
 
     /**
@@ -41,7 +47,7 @@ class AccessEntriesResolver implements AccessEntriesResolverInterface
         }
 
         if (\is_object($key)) {
-            if ($accessEntry = $this->entityClassToAccessEntry[\get_class($key)]) {
+            if ($accessEntry = $this->entityClassToAccessEntry[\get_class($key)] ?? null) {
                 return $accessEntry;
             }
 
